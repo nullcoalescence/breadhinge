@@ -1,4 +1,5 @@
 using breadhinge.Models;
+using breadhinge.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,14 +8,19 @@ namespace breadhinge.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly SpotifyService _spotifyService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, SpotifyService spotifyService)
         {
             _logger = logger;
+            _spotifyService = spotifyService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            await _spotifyService.BuildSpotify();
+            
+
             return View();
         }
 
